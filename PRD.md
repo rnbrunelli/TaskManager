@@ -131,7 +131,7 @@ Work through these in order. Each phase builds on the previous one.
 - [x] Create an error response DTO (e.g., `ErrorResponse`) with `status`, `error`, `message`
 - [x] Create `GlobalExceptionHandler` annotated with `@RestControllerAdvice`
 - [x] Add handler method for `TaskNotFoundException` (404) and generic `Exception` (500)
-- [ ] Add handler for `MethodArgumentNotValidException` (400) — pending Phase 6
+- [x] Add handler for `MethodArgumentNotValidException` (400)
 
 > **Key concept — `@RestControllerAdvice`**: A global interceptor for exceptions thrown by any controller. Without it, Spring returns its own default error body. With it, you control exactly what the client receives.
 
@@ -159,36 +159,37 @@ Work through these in order. Each phase builds on the previous one.
 - [x] Create `TaskController` in `controller/` annotated with `@RestController` and `@RequestMapping("/api/tasks")`
 - [x] Inject `TaskService` via constructor injection
 - [x] Implement all 6 endpoints (see Section 3)
-- [ ] Annotate request body parameters with `@Valid` to trigger bean validation
+- [x] Annotate request body parameters with `@Valid` to trigger bean validation
 - [x] Return `ResponseEntity` with the correct status codes (201 for create, 204 for delete)
 
 > **Key concept — `@Valid`**: Placing `@Valid` on a `@RequestBody` parameter tells Spring to run bean validation before the method body executes. Validation failures throw `MethodArgumentNotValidException`, which your `GlobalExceptionHandler` catches.
 
 ---
 
-### Phase 7 — Tests (in progress)
+### Phase 7 — Tests ✅
 
-- [ ] Write unit tests for `TaskService` (mock the repository with Mockito)
-- [ ] Write integration tests for `TaskController` (use `@SpringBootTest` + `MockMvc` or `@WebMvcTest`)
-- [ ] Cover at minimum: happy path for each endpoint, 404 for unknown id, 400 for invalid request body
+- [x] Write unit tests for `TaskService` (mock the repository with Mockito)
+- [x] Write integration tests for `TaskController` (`standaloneSetup` com `GlobalExceptionHandler` e `LocalValidatorFactoryBean`)
+- [x] Cover at minimum: happy path for each endpoint, 404 for unknown id, 400 for invalid request body
 
 ---
 
-### Phase 8 — Environment variables (planned)
+### Phase 8 — Environment variables ✅
 
-- [ ] Replace hardcoded values in `application.properties` with `${DB_URL}`, `${DB_USERNAME}`, `${DB_PASSWORD}`
-- [ ] Create `.env` file with the actual values for local dev
-- [ ] Add `.env` to `.gitignore` to avoid committing secrets
-- [ ] Configure Docker Compose to read from `.env` (it does this automatically)
+- [x] Replace hardcoded values in `application.properties` with `${DB_URL}`, `${DB_USERNAME}`, `${DB_PASSWORD}`
+- [x] Create `.env` file with the actual values for local dev
+- [x] Add `.env` to `.gitignore` to avoid committing secrets
+- [x] Configure Docker Compose to read from `.env` (it does this automatically)
+- [x] Create `.env.example` as template for other devs
 
 > **Key concept — externalizing config**: In corporate environments, secrets (passwords, URLs, API keys) must never be committed to source control. Spring Boot reads environment variables natively via `${VAR_NAME}` syntax. A `.env` file keeps local dev convenient without exposing secrets in git.
 
 ---
 
-### Phase 9 — CI/CD (planned)
+### Phase 9 — CI/CD ✅
 
-- [ ] Create `.github/workflows/ci.yml`
-- [ ] Pipeline: build and run tests on every push via GitHub Actions
+- [x] Create `.github/workflows/ci.yaml`
+- [x] Pipeline: trigger em push/PR para `main` — checkout → Java 21 (Temurin) → cache Maven → `./mvnw verify`
 
 > **Key concept — `@WebMvcTest` vs `@SpringBootTest`**: `@WebMvcTest` loads only the web layer (fast, no DB needed). `@SpringBootTest` loads the full context (slower, but tests the full stack). Use `@WebMvcTest` + mocked service for controller unit tests; use `@SpringBootTest` for true integration tests.
 

@@ -25,4 +25,4 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 
       - name: Run tests
-        run: .mvnw/ verify
+        run: ./mvnw verify

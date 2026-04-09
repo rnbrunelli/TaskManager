@@ -121,5 +121,6 @@ All 4xx/5xx responses:
 - `.env.example` — template para outros devs
 - `.gitignore` — `.env` excluído
 
-**Phase 9 — CI/CD (planned)**
-- GitHub Actions pipeline: build and test on every push
+**Phase 9 — CI/CD ✅**
+- `.github/workflows/ci.yaml` — pipeline com trigger em push/PR para `main`
+- Steps: checkout → setup Java 21 (Temurin) → cache Maven (`~/.m2`) → `./mvnw verify`

@@ -1,0 +1,17 @@
+volumes:
+  postgres_data:
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: todo_postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:postgres_taskmanager}
+      POSTGRES_USER: ${DB_USERNAME:postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:postgres}
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data

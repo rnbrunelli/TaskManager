@@ -13,16 +13,23 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-java@v5
+      - name: Checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Preparando Java 21
+        uses: actions/setup-java@v5
         with:
           java-version: '21'
           distribution: 'temurin'
 
-      - uses: actions/cache@v4
+      - name: Preparando dependencias em cache
+        uses: actions/cache@v4
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
+
+      - name: Garantindo permissao para rodar testes
+        run: chmod +x mvnw
 
       - name: Run tests
         run: ./mvnw verify
